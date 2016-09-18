@@ -1,4 +1,5 @@
 <?php
+namespace App\Core;
 
 class Controller
 {
@@ -10,6 +11,9 @@ class Controller
         }
 
         require_once '../app/Models/' . $model . '.php';
+
+        $model = 'App\\Models\\' . $model;
+        
         return new $model();
     }
 

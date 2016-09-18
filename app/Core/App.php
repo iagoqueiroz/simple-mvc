@@ -1,4 +1,7 @@
 <?php
+namespace App\Core;
+
+use App\Controllers;
 
 class App
 {
@@ -20,6 +23,7 @@ class App
 
         require_once '../app/Controllers/' . $this->controller . '.php';
 
+        $this->controller = 'App\\Controllers\\' . $this->controller;
         $this->controller = new $this->controller;
 
         if(isset($url[1])){
