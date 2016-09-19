@@ -46,7 +46,73 @@ class Model extends QueryBuilder
             $stmt->execute();
 
             return $stmt->rowCount();
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
+            $this->showPdoError($e);
+        }
+    }
+
+    public function find($id)
+    {
+        try {
+            $sql    = "SELECT * FROM {$this->table} WHERE id = :id";
+            $stmt   = $this->conn->prepare($sql);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+             $this->showPdoError($e);
+        }
+    }
+
+    /* CRUD functions */
+
+    public function create($args = [])
+    {
+        if(!is_array($args)){
+            trigger_error('Você deve informar um array contendo os campos e valores a serem inseridos');
+            return false;
+        }
+
+        try {
+
+            $this->conn->beginTransaction();
+
+            $fields = implode(', ', array_keys($args));
+            $binds  = ':' . implode(', :', array_keys($args));
+
+            $sql    = "INSERT INTO {$this->table} ({$fields}) VALUES ({$binds})";
+            $stmt   = $this->conn->prepare($sql);
+            foreach($args as $colum => $value){
+                $stmt->bindValue(':' . $column, $value);
+            }
+            $stmt->execute();
+            $this->conn->commit();
+
+            return true;
+            
+        } catch (PDOException $e) {
+            $this->conn->rollback();
+            $this->showPdoError($e);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $this->conn->beginTransaction();
+
+            $sql    = "DELETE FROM {$this->table} WHERE id = :id";
+            $stmt   = $this->conn->prepare($sql);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+            $stmt->execute();
+            $this->conn->commit();
+
+            return true;
+
+        } catch (PDOException $e) {
+            this->conn->rollback();
             $this->showPdoError($e);
         }
     }
