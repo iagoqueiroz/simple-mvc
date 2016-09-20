@@ -117,6 +117,42 @@ class Model extends QueryBuilder
         }
     }
 
+    public function update($args = [], $id)
+    {
+        if(!is_array($args)){
+            trigger_error('Você deve informar um array contendo os campos e valores a serem inseridos');
+            return false;
+        }
+        if(func_num_args() != 2){
+            trigger_error('Você deve informar um array com os campos e valores, e um id');
+            return false;
+        }
+
+        try {
+            $this->conn->beginTransaction();
+
+            $fields = [];
+            foreach($args as $column => $value){
+                $fields[] = $column . ' = :' . $column;
+            }
+
+            $sql    = "UPDATE {$this->table} SET {$fields} WHERE id = :id";
+            $stmt   = $this->conn->prepare($sql);
+            foreach($args as $column => $value){
+                $stmt->bindValue(':' . $column, $value);
+            }
+            $stmt->binvValue(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $this->conn->commit();
+
+            return true;
+            
+        } catch (PDOException $e) {
+            this->conn->rollback();
+            $this->showPdoError($e);
+        }
+    }
+
     private function showPdoError(PDOException $e)
     {
         echo "Sentimos muito, houve um erro na operação do banco de dados. Contate um administrador<br/>";

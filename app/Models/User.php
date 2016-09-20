@@ -1,7 +1,9 @@
 <?php
 namespace App\Models;
 
-class User
+use App\Core\Model;
+
+class User extends Model
 {
-    public $name = 'Iago';
+    protected $table = "users";
 }
