@@ -117,14 +117,14 @@ class Model extends QueryBuilder
         }
     }
 
-    public function update($args = [], $id)
+    public function update(array $args = [], $id)
     {
         if(!is_array($args)){
-            trigger_error('Você deve informar um array contendo os campos e valores a serem inseridos');
+            trigger_error('Você deve informar um array contendo os campos e valores a serem inseridos no 1 argumento');
             return false;
         }
         if(func_num_args() != 2){
-            trigger_error('Você deve informar um array com os campos e valores, e um id');
+            trigger_error('Você deve informar um array com os campos e valores, e um id no 2 argumento');
             return false;
         }
 
@@ -135,8 +135,9 @@ class Model extends QueryBuilder
             foreach($args as $column => $value){
                 $fields[] = $column . ' = :' . $column;
             }
+            $binds = implode(', ' . $fields);
 
-            $sql    = "UPDATE {$this->table} SET {$fields} WHERE id = :id";
+            $sql    = "UPDATE {$this->table} SET {$binds} WHERE id = :id";
             $stmt   = $this->conn->prepare($sql);
             foreach($args as $column => $value){
                 $stmt->bindValue(':' . $column, $value);
@@ -146,7 +147,7 @@ class Model extends QueryBuilder
             $this->conn->commit();
 
             return true;
-            
+
         } catch (PDOException $e) {
             this->conn->rollback();
             $this->showPdoError($e);
