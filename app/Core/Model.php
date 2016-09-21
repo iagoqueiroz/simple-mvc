@@ -3,6 +3,7 @@ namespace App\Core;
 
 use App\Core\QueryBuilder;
 use App\Database\Connection;
+use PDO;
 
 class Model extends QueryBuilder
 {
@@ -135,14 +136,14 @@ class Model extends QueryBuilder
             foreach($args as $column => $value){
                 $fields[] = $column . ' = :' . $column;
             }
-            $binds = implode(', ' . $fields);
+            $binds = implode(', ', $fields);
 
             $sql    = "UPDATE {$this->table} SET {$binds} WHERE id = :id";
             $stmt   = $this->conn->prepare($sql);
             foreach($args as $column => $value){
                 $stmt->bindValue(':' . $column, $value);
             }
-            $stmt->binvValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
             $this->conn->commit();
 

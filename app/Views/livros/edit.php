@@ -50,7 +50,7 @@
             <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-th-list"></i> Create a new Book
+                        <i class="fa fa-th-list"></i> Edit this book
                         <a href="livros/" class="btn btn-xs btn-primary pull-right">Voltar</a>
                     </div>
 
@@ -58,18 +58,19 @@
                         <form action="" class="form" method="POST">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" class="form-control">
+                                <input type="text" name="name" class="form-control" value="<?=$livro->name?>">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea name="description" id="description" rows="5" class="form-control"></textarea>
+                                <textarea name="description" id="description" rows="5" class="form-control"><?=$livro->description?></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input type="number" name="price" class="form-control">
+                                <input type="number" name="price" class="form-control" value="<?=$livro->price?>">
                             </div>
                             <div class="form-group">
-                                <button type="submit" name="new-livro" class="btn btn-success"><i class="fa fa-plus"></i> Save</button>
+                                <input type="hidden" name="livro-id" value="<?=$livro->id?>">
+                                <button type="submit" name="edit-livro" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button>
                             </div>
                         </form>
                     </div>

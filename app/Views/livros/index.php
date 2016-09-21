@@ -51,7 +51,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-th-list"></i> All Books
-                        <a href="" class="btn btn-xs btn-primary pull-right">Add new</a>
+                        <a href="livros/create" class="btn btn-xs btn-primary pull-right">Add new</a>
                     </div>
 
                     <table class="table table-hover table-condensed">
@@ -70,7 +70,7 @@
                                     <td><?=$livro->id?></td>
                                     <td><?=$livro->name?></td>
                                     <td><?=$livro->description?></td>
-                                    <td><?=$livro->price?></td>
+                                    <td>R$ <?=$livro->price?></td>
                                     <td>
                                         <a href="livros/edit/<?=$livro->id?>" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
                                         <a href="livros/delete/<?=$livro->id?>" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
