@@ -21,7 +21,7 @@ class Connection
     {
         try {
             
-            self::$instance = new PDO('mysql:host=localhost;dbname=simplemvc;charset=utf8mb4', 'root', 'root');
+            self::$instance = new PDO('mysql:host=localhost;dbname=simplemvc;charset=utf8mb4', 'root', '');
             self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             self::$instance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 

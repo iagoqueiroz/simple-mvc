@@ -22,6 +22,7 @@ class Controller
         if(!file_exists('../app/Views/' . $view . '.php')){
             return false;
         }
+        extract($data);
 
         require_once '../app/Views/' . $view . '.php';
     }
