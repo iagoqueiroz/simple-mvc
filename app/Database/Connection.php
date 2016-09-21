@@ -11,7 +11,7 @@ class Connection
     public static function getInstance()
     {
         if(null === self::$instance){
-            self::$instance = new Connection;
+            new Connection;
         }
 
         return self::$instance;
@@ -23,7 +23,7 @@ class Connection
             
             self::$instance = new PDO('mysql:host=localhost;dbname=simplemvc;charset=utf8mb4', 'root', 'root');
             self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            self::$instance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ); 
+            self::$instance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
         } catch (PDOException $e) {
 

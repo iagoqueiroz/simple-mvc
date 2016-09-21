@@ -16,7 +16,7 @@ class Model extends QueryBuilder
     public function all()
     {
         try {
-            $stmt = $this->conn->prepare($this->build);
+            $stmt = $this->conn->prepare($this->build());
             $stmt->execute();
 
             return $stmt->fetchAll();
@@ -29,7 +29,7 @@ class Model extends QueryBuilder
     public function first()
     {
         try {
-            $stmt = $this->conn->prepare($this->build);
+            $stmt = $this->conn->prepare($this->build());
             $stmt->execute();
 
             return $stmt->fetch();
@@ -42,7 +42,7 @@ class Model extends QueryBuilder
     public function count()
     {
         try {
-            $stmt = $this->conn->prepare($this->build);
+            $stmt = $this->conn->prepare($this->build());
             $stmt->execute();
 
             return $stmt->rowCount();
@@ -83,7 +83,7 @@ class Model extends QueryBuilder
 
             $sql    = "INSERT INTO {$this->table} ({$fields}) VALUES ({$binds})";
             $stmt   = $this->conn->prepare($sql);
-            foreach($args as $colum => $value){
+            foreach($args as $column => $value){
                 $stmt->bindValue(':' . $column, $value);
             }
             $stmt->execute();
@@ -112,7 +112,7 @@ class Model extends QueryBuilder
             return true;
 
         } catch (PDOException $e) {
-            this->conn->rollback();
+            $this->conn->rollback();
             $this->showPdoError($e);
         }
     }
@@ -149,7 +149,7 @@ class Model extends QueryBuilder
             return true;
 
         } catch (PDOException $e) {
-            this->conn->rollback();
+            $this->conn->rollback();
             $this->showPdoError($e);
         }
     }

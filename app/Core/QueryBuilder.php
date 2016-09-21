@@ -14,7 +14,7 @@ class QueryBuilder
         $selects = func_get_args();
 
         if(count($selects) > 0){
-            $this->select = implode(',', $selects);
+            $this->select = implode(', ', $selects);
         }
 
         return $this;
@@ -56,7 +56,7 @@ class QueryBuilder
     {
         $query  = 'SELECT ';
         $query .= empty($this->select) ? '*' : $this->select;
-        $query .= ' FROM ' . (is_null($this->from)) ? $this->table : $this->from;
+        $query .= ' FROM ' . (is_null($this->from) ? $this->table : $this->from);
 
         if(!is_null($this->join)){
             foreach($this->join as $table => $join){
